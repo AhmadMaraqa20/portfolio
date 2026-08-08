@@ -1,77 +1,52 @@
-# Ahmad Maraqa — Portfolio
+# Hi, I'm Ahmad Maraqa 👋
 
-Static multi-page portfolio site (no build step — plain HTML/CSS/JS), ready for GitHub Pages.
+**AI / ML Engineer | AI Research & Integration Engineer**
 
-## Structure
+I build practical AI systems across LLMs, RAG, AI automation, machine learning, and computer vision — with an engineering foundation in real-time signal systems (BLE/RTLS/IoT).
 
-```
-├── index.html          Home
-├── about.html           About
-├── experience.html       Experience timeline
-├── projects.html         Categorized, expandable project case studies
-├── skills.html           Skills grid
-├── css/style.css         All styles (design tokens at top)
-├── js/main.js            Nav toggle, project expand/collapse, category filter
-└── assets/               Resume PDF + project screenshots/videos go here
-```
+My work includes LLM-powered applications, Retrieval-Augmented Generation systems, AI assistants, production automation workflows, and machine learning solutions for real-world applications.
 
-## Before you publish — fill these in
+---
 
-Search the project files for these markers and replace them with your real details:
+### What I work with
 
-- `[Fill in: ...]` — placeholder text in `projects.html` where specifics
-  (metrics, exact approach, client-safe details) need to be added.
-- `📸 / 🎥 media-slot` divs — replace with real `<img>` / `<video>` tags once you
-  have screenshots or short screen recordings of each project.
-- Portfolio URL — once live, update it in:
-  - `github_profile_README.md` ("Portfolio: add your GitHub Pages URL here")
-  - Your LinkedIn Featured section
-  - The CV, if you'd like the link to go live instead of "link to be added"
+- 🤖 **LLMs & Generative AI** — LLMs, RAG, embeddings, prompt engineering
+- 🔎 **Retrieval & Knowledge Systems** — Vector databases, FAISS
+- 🧠 **Machine Learning** — Classical ML, deep learning, neural networks
+- 👁️ **Computer Vision** — OpenCV, YOLO, object detection, image classification
+- ⚙️ **AI Automation** — n8n, agentic workflows, API integrations
+- 🗄️ **Data & Backend** — MongoDB, Python
+- 🔌 **Integrations** — WhatsApp Business API, APIs, webhooks
+- 🧰 **AI Tools** — Ollama, LangChain, Langflow, Claude Code
+- 🔧 **Engineering** — Git, GitHub, IoT, BLE, RTLS, Verilog
 
-## Deploy to GitHub Pages
+---
 
-### 1. Create the repository
-On GitHub: **New repository** → name it whatever you like (e.g. `portfolio`) →
-**Public** (GitHub Pages requires a public repo on the free plan — see note below).
+### Featured work
 
-### 2. Push this folder
-```bash
-cd portfolio
-git init
-git add .
-git commit -m "Initial portfolio site"
-git branch -M main
-git remote add origin https://github.com/AhmadMaraqa20/portfolio.git
-git push -u origin main
-```
+**LLM & RAG**
+Building applications using LLMs, embeddings, vector databases, and retrieval-augmented generation.
 
-### 3. Enable Pages
-Repo → **Settings** → **Pages** → under "Build and deployment":
-- Source: **Deploy from a branch**
-- Branch: **main**, folder **/ (root)**
-- Save
+**AI Assistants**
+Assistants that connect language models to external tools and services — e.g. a natural-language Google Calendar assistant.
 
-Your site goes live at:
-```
-https://ahmadmaraqa20.github.io/portfolio/
-```
+**AI Automation**
+Production automation workflows integrating AI, APIs, databases, webhooks, and messaging platforms (30+ shipped).
 
-(Takes 1–2 minutes to build after each push.)
+**Computer Vision**
+Object detection and image classification — including a YOLOv8-based Jordanian currency detector.
 
-### Alternative: make it your primary GitHub Pages site
-If you name the repo exactly `AhmadMaraqa20.github.io`, it publishes at the shorter
-`https://ahmadmaraqa20.github.io/` with no `/portfolio/` path. Same steps otherwise.
+**Machine Learning**
+Applied ML ranging from classical models (KNN, Decision Trees, Random Forest) to custom probabilistic models for real-time positioning.
 
-## About repo privacy
+---
 
-GitHub Pages on the **free plan only publishes from public repositories** — a private
-repo needs GitHub Pro. Since the whole point of this site is to be seen by recruiters,
-a public repo for just the portfolio code is usually fine (there's no proprietary logic
-in a static site). If you want the source hidden anyway:
-- Upgrade to GitHub Pro ($4/mo), which allows Pages from private repos, **or**
-- Keep this code in a private repo and use a GitHub Actions workflow to build/deploy
-  only the static output to a separate public repo — ask if you want this set up.
+### Portfolio & contact
 
-## Local preview
-Just open `index.html` in a browser — no server needed. (A local server like
-`python3 -m http.server` avoids occasional file:// restrictions in some browsers.)
+🌐 Portfolio: _add your GitHub Pages URL here once published_
+💼 [LinkedIn](https://www.linkedin.com/in/ahmad-maraqa02)
+📧 ahmadmaraka2002@gmail.com
+
+---
+
+<sub>Pinned repositories below are curated to lead with AI/ML work — see the Portfolio site for full project case studies.</sub>
