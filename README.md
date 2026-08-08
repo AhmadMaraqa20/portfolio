@@ -43,7 +43,7 @@ Applied ML ranging from classical models (KNN, Decision Trees, Random Forest) to
 
 ### Portfolio & contact
 
-🌐 Portfolio: _add your GitHub Pages URL here once published_
+🌐 Portfolio: **https://ahmadmaraqa20.github.io/portfolio/**
 💼 [LinkedIn](https://www.linkedin.com/in/ahmad-maraqa02)
 📧 ahmadmaraka2002@gmail.com
 

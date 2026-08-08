@@ -306,6 +306,26 @@ section h2 {
   color: var(--text-lo);
   margin-bottom: 18px;
 }
+/* real screenshots / videos — drop files in assets/media/ */
+.proj-media {
+  margin-bottom: 18px;
+}
+.proj-media img,
+.proj-media video {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #000;
+}
+.proj-media figcaption {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  color: var(--text-lo);
+  margin-top: 8px;
+}
+.proj-media + .proj-media { margin-top: -6px; }
 .proj-body-inner h5 {
   font-family: var(--font-mono); font-size: 12px; text-transform: uppercase;
   letter-spacing: .04em; color: var(--text-hi); margin: 16px 0 6px;
