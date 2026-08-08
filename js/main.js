@@ -14,14 +14,43 @@ document.addEventListener("DOMContentLoaded", () => {
     head.addEventListener("click", () => {
       const card = head.closest(".proj-card");
       const body = card.querySelector(".proj-body");
-      const isOpen = card.classList.contains("open");
-      if (isOpen) {
-        body.style.maxHeight = null;
+      if (card.classList.contains("open")) {
+        body.style.maxHeight = body.scrollHeight + "px";
+        requestAnimationFrame(() => (body.style.maxHeight = null));
         card.classList.remove("open");
       } else {
         card.classList.add("open");
-        body.style.maxHeight = body.scrollHeight + "px";
+        const fit = () => {
+          if (card.classList.contains("open")) {
+            body.style.maxHeight = body.scrollHeight + "px";
+          }
+        };
+        fit();
+        // images finish loading after the card opens — regrow to fit them
+        body.querySelectorAll("img").forEach((img) => {
+          if (!img.complete) img.addEventListener("load", fit, { once: true });
+        });
       }
+    });
+  });
+
+  // Click a project image to view it full size
+  document.querySelectorAll(".proj-media img").forEach((img) => {
+    img.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const box = document.createElement("div");
+      box.className = "lightbox";
+      const big = document.createElement("img");
+      big.src = img.src;
+      big.alt = img.alt;
+      box.appendChild(big);
+      box.addEventListener("click", () => box.remove());
+      document.addEventListener(
+        "keydown",
+        (ev) => ev.key === "Escape" && box.remove(),
+        { once: true }
+      );
+      document.body.appendChild(box);
     });
   });
 
