@@ -29,7 +29,7 @@
 <div class="wrap page-head">
   <p class="eyebrow">projects</p>
   <h1>Projects</h1>
-  <p>Each one lists the problem, the approach, and what it was built with. Click a card to expand it, or filter by category.</p>
+  <p>Each one says what the problem was, what I built, and how it works. Click a card to open it, or filter by type.</p>
 </div>
 
 <section style="border-top:none; padding-top:24px;">
@@ -45,6 +45,15 @@
       <button class="cat-btn" data-cat="other">Other Engineering</button>
     </div>
 
+    <div class="legend">
+      <span><b class="status production">Production</b> running for real users</span>
+      <span><b class="status shipped">Live demo</b> you can try it right now</span>
+      <span><b class="status shipped">Built</b> built by me and working</span>
+      <span><b class="status prototype">Prototype</b> a first version, not finished</span>
+      <span><b class="status prototype">Academic</b> university work</span>
+      <span><b class="status prototype">Write-up</b> a written study, not an app</span>
+    </div>
+
     <!-- ============ AI AGENTS & ASSISTANTS ============ -->
     <div class="cat-group" data-cat="agents">
       <h3>AI Agents &amp; Assistants</h3>
@@ -57,7 +66,7 @@
               <span class="tag">n8n</span><span class="tag">AI Agent</span><span class="tag">Telegram</span><span class="tag">Google Sheets</span><span class="tag">Structured Output</span>
             </div>
           </div>
-          <span class="status shipped">Working</span>
+          <span class="status shipped">Built</span>
           <span class="proj-toggle">+</span>
         </div>
         <div class="proj-body">
@@ -65,23 +74,24 @@
             <div class="proj-media-grid">
               <figure class="proj-media">
                 <img loading="lazy" src="assets/media/telegram-task-manager/03.jpg" alt="n8n workflow for the Telegram task manager agent">
-                <figcaption>The workflow — one agent, two entry points.</figcaption>
+                <figcaption>One agent, two ways in: chat and schedule.</figcaption>
               </figure>
               <figure class="proj-media">
-                <img loading="lazy" src="assets/media/telegram-task-manager/01.jpg" alt="Telegram conversation where the agent asks for the missing category and priority">
-                <figcaption>It asks rather than assumes.</figcaption>
+                <img loading="lazy" src="assets/media/telegram-task-manager/01.jpg" alt="Telegram chat where the agent asks for the missing category and priority">
+                <figcaption>It asks instead of guessing.</figcaption>
               </figure>
               <figure class="proj-media">
-                <img loading="lazy" src="assets/media/telegram-task-manager/02.jpg" alt="Task rows written into the Google Sheet with date, category and priority">
-                <figcaption>Only complete rows reach the sheet.</figcaption>
+                <img loading="lazy" src="assets/media/telegram-task-manager/02.jpg" alt="Task rows in the Google Sheet with date, category and priority filled in">
+                <figcaption>Only complete tasks reach the sheet.</figcaption>
               </figure>
             </div>
             <h5>Problem</h5>
-            <p>A task assistant that writes to a spreadsheet is only useful if it never invents data. The obvious failure mode is the model helpfully filling in a due date or a priority the user never gave — and once a wrong row is written, the whole list stops being trustworthy.</p>
+            <p>A task bot that saves to a spreadsheet is only useful if it never makes things up. The usual failure is the model filling in a due date or a priority the user never said. Once one wrong row is saved, you stop trusting the whole list.</p>
             <h5>Solution</h5>
-            <p>A Telegram agent that manages a task list in Google Sheets under a strict zero-default policy: it is forbidden from guessing. A task is only written once the date, description, category, and priority are all present; anything missing turns into a follow-up question instead of a default value. A second entry point runs on a schedule and sends a morning briefing of the day's tasks, grouped by priority.</p>
-            <h5>Implementation</h5>
-            <p>One agent serves both paths — a Telegram trigger and a schedule trigger — with the system prompt swapped per mode, so the conversational assistant and the daily briefing share the same tools instead of being two separate workflows. Current date, tomorrow, and time are injected as explicit anchors in the Asia/Amman timezone, because relative dates like "tomorrow" are where these agents break most often. A code node computes the next task ID from the existing rows rather than trusting the model to count, and a validation node normalizes the agent's output before it reaches Telegram — handling the cases where an LLM returns a raw string, stringified JSON, or an object under a different key. Models run through OpenRouter with Groq as fallback.</p>
+            <p>A Telegram bot that manages a task list in Google Sheets, with one rule: it is not allowed to guess. A task is only saved once the date, description, category and priority are all there. If anything is missing, it asks a question instead of picking a default. The same bot also sends a short list of today's tasks every morning, grouped by priority.</p>
+            <h5>How it works</h5>
+            <p>Both the chat and the morning message go through the same agent. Only the instructions change depending on which one triggered it, so I keep one set of tools instead of building two separate workflows.</p>
+            <p>Today's date, tomorrow's date and the current time are passed in directly, set to Amman time. This is the part that usually breaks these bots, because "tomorrow" means nothing to a model that doesn't know today. A small script works out the next task ID from the rows already in the sheet, rather than asking the model to count. Another script cleans up the agent's reply before it goes back to Telegram, since an LLM can return plain text, JSON as text, or an object, and all three need to end up as one message. Models run on OpenRouter, with Groq set as a backup if the first one fails.</p>
           </div>
         </div>
       </div>
@@ -94,23 +104,24 @@
               <span class="tag">n8n</span><span class="tag">Speech-to-Text</span><span class="tag">Text-to-Speech</span><span class="tag">ElevenLabs</span><span class="tag">AI Agent</span>
             </div>
           </div>
-          <span class="status shipped">Working</span>
+          <span class="status shipped">Built</span>
           <span class="proj-toggle">+</span>
         </div>
         <div class="proj-body">
           <div class="proj-body-inner">
             <div class="proj-media-grid">
               <figure class="proj-media">
-                <img loading="lazy" src="assets/media/gym-voice-assistant/01.jpg" alt="n8n workflow routing voice and text messages to a gym membership agent">
-                <figcaption>Voice and text split at the trigger, meet at the agent, and split again on the way out.</figcaption>
+                <img loading="lazy" src="assets/media/gym-voice-assistant/01.jpg" alt="n8n workflow sending voice and text messages to the same gym membership agent">
+                <figcaption>Voice and text split at the start, meet at the agent, and split again at the end.</figcaption>
               </figure>
             </div>
             <h5>Problem</h5>
-            <p>Front-desk questions at a gym are repetitive — what plans exist, what they cost, signing someone up, cancelling a membership — and they arrive as voice notes as often as text.</p>
+            <p>Front desk questions at a gym repeat all day: what plans are there, what do they cost, sign me up, cancel my membership. And people send voice notes as often as they type.</p>
             <h5>Solution</h5>
-            <p>A Telegram assistant that handles membership enquiries in either voice or text and answers in the same format the user used. It can look up an existing member, quote current prices, register a new member, and deactivate one — all against a live spreadsheet, so the answers reflect real records rather than anything memorized in the prompt.</p>
-            <h5>Implementation</h5>
-            <p>A switch node routes incoming Telegram messages by type: voice notes are downloaded and transcribed through ElevenLabs, text passes straight through, and both converge on the same agent. The agent is given four scoped tools — read member, read prices, add member, deactivate member — rather than open database access, which keeps what it can do explicit. On the way out, a second switch mirrors the input format: voice in means the reply is synthesized back to speech and sent as an audio file.</p>
+            <p>A Telegram assistant that answers membership questions by voice or text, and replies the same way you asked. It can look up a member, give current prices, add a new member, and cancel one, all against a live spreadsheet. That way the answers come from real records, not from something written into the prompt months ago.</p>
+            <h5>How it works</h5>
+            <p>Incoming messages are sorted by type. Voice notes are downloaded and turned into text by ElevenLabs; typed messages skip that step. Both then reach the same agent.</p>
+            <p>The agent gets four specific tools: read a member, read prices, add a member, cancel a member. It does not get open access to the spreadsheet. Keeping the tools narrow means everything it can do is written down and nothing else is possible. On the way out, the reply is turned back into speech if the question came in as a voice note.</p>
           </div>
         </div>
       </div>
@@ -123,31 +134,32 @@
               <span class="tag">n8n</span><span class="tag">Google Calendar API</span><span class="tag">Speech-to-Text</span><span class="tag">Text-to-Speech</span>
             </div>
           </div>
-          <span class="status shipped">Working</span>
+          <span class="status shipped">Built</span>
           <span class="proj-toggle">+</span>
         </div>
         <div class="proj-body">
           <div class="proj-body-inner">
             <div class="proj-media-grid">
               <figure class="proj-media">
-                <img loading="lazy" src="assets/media/calendar-voice-assistant/01.jpg" alt="n8n workflow connecting Telegram to Google Calendar tools">
-                <figcaption>Four calendar tools, one agent.</figcaption>
+                <img loading="lazy" src="assets/media/calendar-voice-assistant/01.jpg" alt="n8n workflow connecting Telegram to four Google Calendar tools">
+                <figcaption>Four separate calendar actions the agent picks from.</figcaption>
               </figure>
               <figure class="proj-media">
-                <img loading="lazy" src="assets/media/calendar-voice-assistant/03.jpg" alt="Telegram conversation creating a calendar event">
-                <figcaption>It confirms the time before writing.</figcaption>
+                <img loading="lazy" src="assets/media/calendar-voice-assistant/03.jpg" alt="Telegram chat creating a calendar event and confirming the time">
+                <figcaption>It confirms the time before saving.</figcaption>
               </figure>
               <figure class="proj-media">
-                <img loading="lazy" src="assets/media/calendar-voice-assistant/02.jpg" alt="The resulting event in Google Calendar">
-                <figcaption>The event as it lands in Calendar.</figcaption>
+                <img loading="lazy" src="assets/media/calendar-voice-assistant/02.jpg" alt="The new event shown in Google Calendar">
+                <figcaption>The event in the real calendar.</figcaption>
               </figure>
             </div>
             <h5>Problem</h5>
-            <p>Scheduling by hand means opening a calendar UI and filling fields, when the intent is usually one sentence: "move my 3pm to Thursday".</p>
+            <p>Booking something by hand means opening the calendar and filling in fields, when what you actually want to say is one sentence: "move my 3pm to Thursday".</p>
             <h5>Solution</h5>
-            <p>An assistant that takes a spoken or typed request in Telegram and performs the actual calendar operation — creating, reading, updating, or deleting events — then confirms what it did.</p>
-            <h5>Implementation</h5>
-            <p>Voice notes are transcribed with ElevenLabs; text messages skip that step. The agent has four separate Google Calendar tools rather than one generic one, so create, list, update, and delete stay distinct actions it has to choose between deliberately. Conversation memory carries context across turns, which is what makes follow-ups like "make it an hour later" resolvable. Replies go back as text or synthesized audio to match how the request arrived.</p>
+            <p>An assistant you speak or type to on Telegram. It creates, reads, changes and deletes real calendar events, then tells you what it did.</p>
+            <h5>How it works</h5>
+            <p>Voice notes are turned into text with ElevenLabs first; typed messages go straight through. The agent has four separate calendar tools rather than one general one, so creating, listing, changing and deleting stay four different choices it has to make on purpose.</p>
+            <p>It remembers the conversation, which is what makes a follow-up like "make it an hour later" work. Replies come back as text or as audio, matching how you asked.</p>
           </div>
         </div>
       </div>
@@ -157,30 +169,30 @@
           <div class="proj-title">
             <h4>CV Review Bot</h4>
             <div class="proj-tags">
-              <span class="tag">n8n</span><span class="tag">PDF Extraction</span><span class="tag">LLM</span><span class="tag">Text-to-Speech</span>
+              <span class="tag">n8n</span><span class="tag">PDF Reading</span><span class="tag">LLM</span><span class="tag">Text-to-Speech</span>
             </div>
           </div>
-          <span class="status shipped">Working</span>
+          <span class="status shipped">Built</span>
           <span class="proj-toggle">+</span>
         </div>
         <div class="proj-body">
           <div class="proj-body-inner">
             <div class="proj-media-grid">
               <figure class="proj-media">
-                <img loading="lazy" src="assets/media/cv-advisor-bot/01.jpg" alt="n8n workflow that extracts a CV PDF and returns spoken feedback">
+                <img loading="lazy" src="assets/media/cv-advisor-bot/01.jpg" alt="n8n workflow that reads a CV PDF and sends back spoken feedback">
                 <figcaption>PDF in, spoken feedback out.</figcaption>
               </figure>
               <figure class="proj-media">
-                <img loading="lazy" src="assets/media/cv-advisor-bot/02.jpg" alt="Telegram conversation with CV feedback returned as text and audio">
-                <figcaption>Feedback delivered in chat.</figcaption>
+                <img loading="lazy" src="assets/media/cv-advisor-bot/02.jpg" alt="Telegram chat with CV feedback sent back as voice messages">
+                <figcaption>Feedback comes back as audio.</figcaption>
               </figure>
             </div>
             <h5>Problem</h5>
-            <p>Getting a second opinion on a CV usually means sending it to someone and waiting. Reading a wall of written feedback on a phone is also a poor experience.</p>
+            <p>Getting a second opinion on your CV usually means sending it to someone and waiting. And reading a long block of feedback on a phone is not much fun either.</p>
             <h5>Solution</h5>
-            <p>Send a CV as a PDF to a Telegram bot and get structured feedback back — delivered as an audio message you can listen to, alongside the text.</p>
-            <h5>Implementation</h5>
-            <p>The bot downloads the file from Telegram, extracts the text from the PDF, and passes it through an LLM chain prompted to review it as a recruiter would. A conditional gate checks that a usable document actually arrived before spending a model call. The written feedback is then converted to speech through ElevenLabs and sent back as an audio file.</p>
+            <p>Send your CV as a PDF to a Telegram bot and get feedback back as a voice message you can just listen to.</p>
+            <h5>How it works</h5>
+            <p>The bot downloads the file from Telegram, pulls the text out of the PDF, and sends it to a model told to review it the way a recruiter would. Before any of that, a check confirms a real document actually arrived, so a stray text message doesn't cost a model call. The written feedback is then turned into speech with ElevenLabs and sent back as audio.</p>
           </div>
         </div>
       </div>
@@ -188,36 +200,36 @@
       <div class="proj-card">
         <div class="proj-head">
           <div class="proj-title">
-            <h4>Restaurant Assistant with Human Handoff</h4>
+            <h4>Restaurant Assistant with Human Handover</h4>
             <div class="proj-tags">
               <span class="tag">n8n</span><span class="tag">AI Agent</span><span class="tag">Telegram</span><span class="tag">Gmail</span>
             </div>
           </div>
-          <span class="status shipped">Working</span>
+          <span class="status shipped">Built</span>
           <span class="proj-toggle">+</span>
         </div>
         <div class="proj-body">
           <div class="proj-body-inner">
             <div class="proj-media-grid">
               <figure class="proj-media">
-                <img loading="lazy" src="assets/media/restaurant-bot/01.jpg" alt="n8n workflow for a restaurant assistant with an escalation tool">
-                <figcaption>The escalation path is a tool, not a fallback.</figcaption>
+                <img loading="lazy" src="assets/media/restaurant-bot/01.jpg" alt="n8n workflow for a restaurant assistant with an email handover tool">
+                <figcaption>Passing to a human is a tool, not an error.</figcaption>
               </figure>
               <figure class="proj-media">
-                <img loading="lazy" src="assets/media/restaurant-bot/02.jpg" alt="Telegram conversation with the restaurant assistant">
-                <figcaption>Handling a normal enquiry.</figcaption>
+                <img loading="lazy" src="assets/media/restaurant-bot/02.jpg" alt="Telegram chat taking a customer order">
+                <figcaption>Taking an order in chat.</figcaption>
               </figure>
               <figure class="proj-media">
-                <img loading="lazy" src="assets/media/restaurant-bot/03.jpg" alt="Escalation email sent to a human staff member">
-                <figcaption>What staff receive on escalation.</figcaption>
+                <img loading="lazy" src="assets/media/restaurant-bot/03.jpg" alt="Order confirmation email sent to restaurant staff">
+                <figcaption>What the staff get by email.</figcaption>
               </figure>
             </div>
             <h5>Problem</h5>
-            <p>A customer-facing bot that can only answer from a script becomes a dead end the moment a request falls outside it — and an agent that improvises instead of escalating is worse.</p>
+            <p>A customer bot that can only follow a script becomes a dead end the moment someone asks something new. A bot that makes something up instead of passing it on is worse.</p>
             <h5>Solution</h5>
-            <p>A restaurant assistant that answers routine questions itself and treats "hand this to a person" as an explicit action it can take, emailing the details to staff when a request is outside what it should handle.</p>
-            <h5>Implementation</h5>
-            <p>An n8n agent on a Telegram trigger with conversation memory, given a Gmail tool for escalation. Making the handoff a tool rather than an error path means the model decides to escalate as a deliberate step, and the customer gets told it happened instead of receiving a non-answer.</p>
+            <p>A restaurant assistant that handles the normal questions itself, and treats "send this to a person" as a real action it can take. When it does, staff get an email with the full details.</p>
+            <h5>How it works</h5>
+            <p>An n8n agent on Telegram that remembers the conversation, with an email tool for handing over. Making the handover a tool rather than a last resort means the model chooses it on purpose, and the customer is told it happened instead of getting a vague non-answer.</p>
           </div>
         </div>
       </div>
@@ -230,31 +242,31 @@
               <span class="tag">n8n</span><span class="tag">AI Agent</span><span class="tag">Gmail API</span><span class="tag">Memory</span>
             </div>
           </div>
-          <span class="status shipped">Working</span>
+          <span class="status shipped">Built</span>
           <span class="proj-toggle">+</span>
         </div>
         <div class="proj-body">
           <div class="proj-body-inner">
             <div class="proj-media-grid">
               <figure class="proj-media">
-                <img loading="lazy" src="assets/media/email-drafting-agent/02.jpg" alt="n8n workflow that creates Gmail drafts from Telegram messages">
-                <figcaption>One tool: create draft. Send isn't available to it.</figcaption>
+                <img loading="lazy" src="assets/media/email-drafting-agent/02.jpg" alt="n8n workflow with a single Gmail create-draft tool">
+                <figcaption>One tool: create a draft. Send isn't there.</figcaption>
               </figure>
               <figure class="proj-media">
-                <img loading="lazy" src="assets/media/email-drafting-agent/01.jpg" alt="Telegram conversation describing an email to write">
+                <img loading="lazy" src="assets/media/email-drafting-agent/01.jpg" alt="Telegram chat describing the email to write">
                 <figcaption>Describing the email in chat.</figcaption>
               </figure>
               <figure class="proj-media">
-                <img loading="lazy" src="assets/media/email-drafting-agent/03.jpg" alt="The generated draft waiting in Gmail">
-                <figcaption>The draft waiting for review.</figcaption>
+                <img loading="lazy" src="assets/media/email-drafting-agent/03.jpg" alt="The finished draft waiting in Gmail">
+                <figcaption>The draft waiting for you to read it.</figcaption>
               </figure>
             </div>
             <h5>Problem</h5>
-            <p>Writing routine emails is slow, but letting an LLM send mail on your behalf is a bad trade — a single bad send can't be taken back.</p>
+            <p>Writing routine emails is slow. But letting a model send email for you is a bad deal, because one bad send can't be taken back.</p>
             <h5>Solution</h5>
-            <p>Describe an email in a Telegram message and the agent writes it into your Gmail drafts. It never sends. The last step is always a human opening the draft and hitting send.</p>
-            <h5>Implementation</h5>
-            <p>An n8n agent with conversation memory and exactly one Gmail tool: create draft. Scoping the tool to draft-creation rather than send is the whole design — the irreversible action simply isn't available to the model. Follow-up messages refine the same email because memory carries the thread.</p>
+            <p>Describe the email in a Telegram message and the agent writes it into your Gmail drafts. It never sends. The last step is always you opening the draft and pressing send.</p>
+            <h5>How it works</h5>
+            <p>An n8n agent that remembers the conversation, with exactly one Gmail tool: create a draft. That is the whole idea. The action you can't undo simply isn't available to the model, so it can't happen by accident. Follow-up messages keep editing the same email.</p>
           </div>
         </div>
       </div>
@@ -262,32 +274,32 @@
       <div class="proj-card">
         <div class="proj-head">
           <div class="proj-title">
-            <h4>Daily Coach — Three Architectures Compared</h4>
+            <h4>Same Bot, Three Designs — a Comparison</h4>
             <div class="proj-tags">
               <span class="tag">n8n</span><span class="tag">Agent Design</span><span class="tag">Structured Output</span><span class="tag">Tool Calling</span>
             </div>
           </div>
-          <span class="status prototype">Study</span>
+          <span class="status shipped">Built</span>
           <span class="proj-toggle">+</span>
         </div>
         <div class="proj-body">
           <div class="proj-body-inner">
             <div class="proj-media-grid">
               <figure class="proj-media">
-                <img loading="lazy" src="assets/media/life-coach-agent/01.jpg" alt="Three parallel n8n workflows solving the same task in different ways">
-                <figcaption>Same task, three builds, side by side.</figcaption>
+                <img loading="lazy" src="assets/media/life-coach-agent/01.jpg" alt="Three n8n workflows solving the same task in three different ways">
+                <figcaption>Same job, three builds, side by side.</figcaption>
               </figure>
               <figure class="proj-media">
-                <img loading="lazy" src="assets/media/life-coach-agent/02.jpg" alt="Logged advice rows produced by the three approaches">
-                <figcaption>What each one actually wrote.</figcaption>
+                <img loading="lazy" src="assets/media/life-coach-agent/02.jpg" alt="The advice each version saved to the sheet">
+                <figcaption>What each version actually saved.</figcaption>
               </figure>
             </div>
             <h5>Problem</h5>
-            <p>"Agent writes to a database" can be built several ways, and the differences only show up under failure. I wanted to see them next to each other rather than argue about them in the abstract.</p>
+            <p>"An agent that writes to a database" can be built in several ways, and they only look different when something goes wrong. I wanted to see them next to each other instead of guessing.</p>
             <h5>Solution</h5>
-            <p>The same assistant — give advice, log it — built three ways in one canvas: the agent's raw text appended by a following node; the agent forced through a structured output parser before writing; and the agent given the sheet as a tool it calls itself.</p>
-            <h5>Implementation</h5>
-            <p>Three parallel branches sharing the same trigger and model setup so only the architecture varies. The takeaway: parsing the output into a schema before it touches storage is what stops malformed rows, while handing the agent the write tool directly gives it more autonomy and more ways to go wrong. That result is what drives the design of the task manager above.</p>
+            <p>The same small assistant, give one piece of advice and save it, built three ways on one screen. First: the agent's plain text gets saved by the next step. Second: the same thing, but the reply must match a fixed format first. Third: the agent is given the spreadsheet as a tool and saves the row itself.</p>
+            <h5>What I learned</h5>
+            <p>Forcing the reply into a fixed format before it gets saved is what stops broken rows. Handing the agent the save tool gives it more freedom and more ways to get it wrong. That result is why the task manager above is built the way it is.</p>
           </div>
         </div>
       </div>
@@ -300,17 +312,17 @@
               <span class="tag">Speech-to-Text</span><span class="tag">Translation</span><span class="tag">Text-to-Speech</span>
             </div>
           </div>
-          <span class="status shipped">Exhibited</span>
+          <span class="status shipped">Built</span>
           <span class="proj-toggle">+</span>
         </div>
         <div class="proj-body">
           <div class="proj-body-inner">
             <h5>Problem</h5>
-            <p>Dubbing video into another language normally needs a manual production chain — transcription, translation, voice recording, and re-syncing — which puts it out of reach for small volumes of content.</p>
+            <p>Dubbing a video into another language normally takes a whole manual chain: write out the speech, translate it, record a voice, then line it all up again.</p>
             <h5>Solution</h5>
-            <p>An end-to-end pipeline that transcribes the original audio, translates it, generates new speech, and re-synchronizes the result to the original video's timing.</p>
-            <h5>Implementation</h5>
-            <p>Speech-to-text → translation → text-to-speech, with a synchronization step to align generated speech duration against the source, since translated text rarely takes the same time to say. Exhibited at SOFEX 2024 and the National Technology Parade 2024.</p>
+            <p>A system that does all four steps on its own. It writes out the original speech, translates it, generates a new voice, and lines the new audio up with the original video.</p>
+            <h5>How it works</h5>
+            <p>Speech to text, then translation, then text to speech, plus a step that stretches or trims the timing to fit. That last part matters because the same sentence rarely takes the same time to say in two languages. Shown at SOFEX 2024 and the National Technology Parade 2024.</p>
           </div>
         </div>
       </div>
@@ -323,36 +335,37 @@
       <div class="proj-card">
         <div class="proj-head">
           <div class="proj-title">
-            <h4>Self-Syncing RAG Knowledge Base</h4>
+            <h4>Self-Updating RAG Knowledge Base</h4>
             <div class="proj-tags">
               <span class="tag">RAG</span><span class="tag">Pinecone</span><span class="tag">Embeddings</span><span class="tag">Google Drive</span><span class="tag">n8n</span>
             </div>
           </div>
-          <span class="status shipped">Working</span>
+          <span class="status shipped">Built</span>
           <span class="proj-toggle">+</span>
         </div>
         <div class="proj-body">
           <div class="proj-body-inner">
             <div class="proj-media-grid">
               <figure class="proj-media">
-                <img loading="lazy" src="assets/media/advanced-rag/01.jpg" alt="n8n workflow that ingests Google Drive documents into a Pinecone vector store">
-                <figcaption>Ingestion, sync ledger, and chat in one canvas.</figcaption>
+                <img loading="lazy" src="assets/media/advanced-rag/01.jpg" alt="n8n workflow that loads Google Drive documents into a Pinecone vector store and serves a chat agent">
+                <figcaption>Loading, checking and chat, all in one place.</figcaption>
               </figure>
               <figure class="proj-media">
-                <img loading="lazy" src="assets/media/advanced-rag/02.jpg" alt="The Google Drive folder of documents that the workflow watches">
-                <figcaption>The Drive folder it watches for new files.</figcaption>
+                <img loading="lazy" src="assets/media/advanced-rag/02.jpg" alt="The Google Drive folder of PDF reports the workflow watches">
+                <figcaption>The Drive folder it watches.</figcaption>
               </figure>
               <figure class="proj-media">
-                <img loading="lazy" src="assets/media/advanced-rag/03.jpg" alt="Chat answering a financial question with a figure cited from the ingested report">
-                <figcaption>Answered with a figure from the indexed report.</figcaption>
+                <img loading="lazy" src="assets/media/advanced-rag/03.jpg" alt="Chat answering a question about Apple's Q1 net sales using a figure from the report">
+                <figcaption>Answered with a real figure from the report.</figcaption>
               </figure>
             </div>
             <h5>Problem</h5>
-            <p>A RAG system that needs a human to re-run ingestion goes stale the moment someone drops a new file in the folder. Naively re-indexing everything on a schedule is the usual fix, and it wastes embedding calls and duplicates chunks.</p>
+            <p>A RAG system that needs someone to press a button goes out of date the moment a new file is added to the folder. The easy fix is to reload everything on a timer, but then you pay to process the same documents over and over and end up with duplicates.</p>
             <h5>Solution</h5>
-            <p>A knowledge base that keeps itself current: it watches a Google Drive folder, ingests only documents it hasn't seen before, and serves a chat agent that answers strictly from what has been indexed.</p>
-            <h5>Implementation</h5>
-            <p>A scheduled trigger lists the Drive folder and cross-references it against a Google Sheets ledger of already-processed files; a code node computes the difference, and only new files go through the loop that downloads, splits, and embeds them. Documents are chunked with a recursive character splitter, embedded via HuggingFace Inference, and stored in Pinecone. On the query side, the vector store is exposed to the agent as a retrieval tool rather than being stuffed into the prompt, so the model decides when a lookup is warranted. Models run through OpenRouter with Groq as a fallback.</p>
+            <p>A knowledge base that keeps itself up to date. It checks a Google Drive folder on a schedule, loads only the files it hasn't seen before, and answers questions using only what has been loaded.</p>
+            <h5>How it works</h5>
+            <p>On each run it lists the Drive folder and compares it against a record of files already processed in Google Sheets. A small script works out which files are new, and only those go through the loop that downloads, splits and processes them. Documents are cut into chunks, turned into vectors using HuggingFace, and stored in Pinecone.</p>
+            <p>On the question side, the search is given to the agent as a tool instead of being pushed into every prompt. So the agent decides when it actually needs to look something up. Models run on OpenRouter with Groq as a backup.</p>
           </div>
         </div>
       </div>
@@ -360,12 +373,12 @@
       <div class="proj-card">
         <div class="proj-head">
           <div class="proj-title">
-            <h4>Document Q&amp;A over Uploaded Files</h4>
+            <h4>Chat With Your Own Document</h4>
             <div class="proj-tags">
               <span class="tag">RAG</span><span class="tag">Pinecone</span><span class="tag">Vector Search</span><span class="tag">n8n</span>
             </div>
           </div>
-          <span class="status shipped">Working</span>
+          <span class="status shipped">Built</span>
           <span class="proj-toggle">+</span>
         </div>
         <div class="proj-body">
@@ -373,19 +386,19 @@
             <div class="proj-media-grid">
               <figure class="proj-media">
                 <img loading="lazy" src="assets/media/simple-rag/01.jpg" alt="n8n workflow with an upload form feeding a Pinecone-backed chat agent">
-                <figcaption>Upload form on one side, chat on the other.</figcaption>
+                <figcaption>Upload on one side, chat on the other.</figcaption>
               </figure>
               <figure class="proj-media">
-                <img loading="lazy" src="assets/media/simple-rag/02.jpg" alt="Chat answering questions about an uploaded document">
-                <figcaption>Questions answered from the uploaded file.</figcaption>
+                <img loading="lazy" src="assets/media/simple-rag/02.jpg" alt="Chat answering questions about the uploaded CV">
+                <figcaption>Answers taken from the uploaded file.</figcaption>
               </figure>
             </div>
             <h5>Problem</h5>
-            <p>Asking questions about a specific document you own — where the answer has to come from that file and not from the model's training data.</p>
+            <p>Asking questions about one specific file you own, where the answer has to come from that file and not from whatever the model already knows.</p>
             <h5>Solution</h5>
-            <p>Upload a file through a web form and immediately chat with it. The uploaded document is chunked and indexed on submission, and the assistant answers from those chunks.</p>
-            <h5>Implementation</h5>
-            <p>An n8n form trigger handles the upload; the document is split with a recursive character splitter, embedded through HuggingFace Inference, and written to Pinecone. A separate chat trigger runs an agent with conversation memory that reaches the index through a vector-store tool. Built as the baseline before the self-syncing version above.</p>
+            <p>Upload a file through a web form, then chat with it straight away. The file is processed the moment you submit it, and the assistant answers from its contents.</p>
+            <h5>How it works</h5>
+            <p>An n8n form handles the upload. The document is cut into chunks, turned into vectors with HuggingFace, and saved to Pinecone. A separate chat window runs an agent that remembers the conversation and reaches the file through a search tool. I built this first, then built the self-updating version above on top of what it taught me.</p>
           </div>
         </div>
       </div>
@@ -393,32 +406,32 @@
       <div class="proj-card">
         <div class="proj-head">
           <div class="proj-title">
-            <h4>Text-to-Video Generation Bot</h4>
+            <h4>ASMR Video Generator Bot</h4>
             <div class="proj-tags">
-              <span class="tag">n8n</span><span class="tag">Google Gemini</span><span class="tag">Prompt Engineering</span><span class="tag">Telegram</span>
+              <span class="tag">n8n</span><span class="tag">Google Veo 3</span><span class="tag">Prompt Engineering</span><span class="tag">Structured Output</span>
             </div>
           </div>
-          <span class="status shipped">Working</span>
+          <span class="status shipped">Built</span>
           <span class="proj-toggle">+</span>
         </div>
         <div class="proj-body">
           <div class="proj-body-inner">
             <div class="proj-media-grid">
               <figure class="proj-media">
-                <img loading="lazy" src="assets/media/ai-video-generator/01.jpg" alt="n8n workflow turning a chat message into a generated video">
-                <figcaption>Idea in, generated clip out.</figcaption>
+                <img loading="lazy" src="assets/media/ai-video-generator/01.jpg" alt="n8n workflow turning a one-word message into a generated video">
+                <figcaption>One word in, a finished clip out.</figcaption>
               </figure>
               <figure class="proj-media">
-                <img loading="lazy" src="assets/media/ai-video-generator/02.jpg" alt="Telegram conversation returning a generated video">
-                <figcaption>The clip delivered in chat.</figcaption>
+                <img loading="lazy" src="assets/media/ai-video-generator/02.jpg" alt="Telegram chat showing generated fruit-cutting videos">
+                <figcaption>The clips arrive back in the chat.</figcaption>
               </figure>
             </div>
             <h5>Problem</h5>
-            <p>Video generation models are sensitive to how the prompt is written, and a one-line request from a user rarely contains what they need. Generation is also slow and metered, so sending a weak prompt straight through wastes both.</p>
+            <p>Video models need long, very detailed prompts to produce anything good. Nobody wants to write one of those by hand every time. Generating a video is also slow and costs money, so sending a weak prompt through wastes both.</p>
             <h5>Solution</h5>
-            <p>A Telegram bot that takes a rough idea, rewrites it into a proper generation prompt, and returns the finished clip in chat.</p>
-            <h5>Implementation</h5>
-            <p>A prompt-engineering agent expands the user's message and emits it through a structured output parser, so the downstream node receives a predictable shape rather than prose. Conditional gates check the request is usable and that generation actually returned a video before anything is sent back — otherwise the user gets a clear message instead of silence. Generation runs on Google Gemini.</p>
+            <p>Send the bot one word, the name of a fruit, and it sends back a finished cinematic clip of that fruit being sliced. All the prompt writing happens in between, out of sight.</p>
+            <h5>How it works</h5>
+            <p>An agent turns the single word into a long, detailed video prompt following a fixed style. It returns two things in a set format: the prompt itself, and a true/false answer for whether the word was actually a fruit. If it wasn't, the bot replies with an error instead of paying for a video nobody asked for. There is also a check at the very start that the message came from the owner's chat, so nobody else can run up the bill. Video generation runs on Google Veo 3.</p>
           </div>
         </div>
       </div>
@@ -426,25 +439,25 @@
       <div class="proj-card">
         <div class="proj-head">
           <div class="proj-title">
-            <h4>The Softmax Problem: Rejecting Unknown Classes</h4>
+            <h4>Teaching a Model to Say "I Don't Know"</h4>
             <div class="proj-tags">
               <span class="tag">Bayesian Neural Networks</span><span class="tag">Multi-Label</span><span class="tag">Uncertainty</span>
             </div>
           </div>
-          <span class="status prototype">Research</span>
+          <span class="status prototype">Write-up</span>
           <span class="proj-toggle">+</span>
         </div>
         <div class="proj-body">
           <div class="proj-body-inner">
             <div class="proj-links">
-              <a href="https://github.com/AhmadMaraqa20/Classification_Problem" target="_blank" rel="noopener">GitHub — full write-up &amp; notebook ↗</a>
+              <a href="https://github.com/AhmadMaraqa20/Classification_Problem" target="_blank" rel="noopener">Read it on GitHub ↗</a>
             </div>
             <h5>Problem</h5>
-            <p>A standard multi-class classifier always predicts something. Softmax forces the probabilities to sum to one, so an input belonging to none of the trained classes still gets confidently assigned to the nearest one.</p>
+            <p>A normal classifier always picks something. Its scores are forced to add up to 100%, so an image of a cat shown to a model trained on dogs and horses still comes back confidently labelled as one of them. There is no option to say "this is none of them".</p>
             <h5>Solution</h5>
-            <p>Two ways out, worked through in the repository: Bayesian neural networks, which carry uncertainty in the prediction itself, and reframing the task as multi-label with sigmoid outputs — where each class is scored independently and every score can fall below threshold, letting the model reject the input entirely.</p>
-            <h5>Implementation</h5>
-            <p>Written up with a notebook implementing the multi-label approach. The repository explains the reasoning in full — it's a write-up rather than a demo, so it's linked rather than screenshotted.</p>
+            <p>Two ways around it, worked through in the repository. One is a Bayesian neural network, which carries how unsure it is as part of the answer. The other is scoring every class on its own instead of making them compete, so all the scores can come back low at once and the model can reject the input.</p>
+            <h5>How it works</h5>
+            <p>The repository has the full explanation plus a notebook with the second approach implemented. It's a written study rather than an app, so it's linked instead of shown in screenshots.</p>
           </div>
         </div>
       </div>
@@ -457,7 +470,7 @@
       <div class="proj-card">
         <div class="proj-head">
           <div class="proj-title">
-            <h4>Production WhatsApp Messaging Platform</h4>
+            <h4>WhatsApp Messaging Platform at Scale</h4>
             <div class="proj-tags">
               <span class="tag">WhatsApp Cloud API</span><span class="tag">MongoDB</span><span class="tag">Webhook Security</span><span class="tag">Self-hosted n8n</span><span class="tag">Hostinger VPS</span>
             </div>
@@ -467,16 +480,17 @@
         </div>
         <div class="proj-body">
           <div class="proj-body-inner">
-            <p class="proj-note">Client work. Described at the level of the engineering only — no diagrams, workflow files, or client identifiers.</p>
+            <p class="proj-note">Client work. I describe the engineering only. No diagrams, no workflow files, no client details.</p>
             <h5>Problem</h5>
-            <p>Running outbound WhatsApp messaging at scale on the official API means living with its constraints: template approval, per-number rate limits, delivery webhooks that arrive out of order, and media identifiers that expire after 30 days and silently break every message referencing them.</p>
+            <p>Sending WhatsApp messages at scale on the official API means living with its rules. Message templates need approval before you can use them. There are limits on how fast you can send. Delivery updates arrive out of order. And any image you upload stops working after 30 days, which quietly breaks every message that points at it.</p>
             <h5>Solution</h5>
-            <p>A set of automation workflows sitting between a web application and the WhatsApp Business Cloud API, handling outbound sends, inbound replies, scheduled reminders, and the maintenance jobs that keep the whole thing from decaying — with MongoDB as the single source of truth for what has been sent, delivered, and answered.</p>
-            <h5>Implementation</h5>
-            <p>Sends go to the Graph API as approved template messages; inbound replies arrive on webhooks and are matched back to records in MongoDB. Every webhook is authenticated — a shared secret header between the application and the automation layer, and HMAC signature verification on the callbacks coming from Meta, so an endpoint that is public by necessity still can't be driven by anyone else.</p>
-            <p>Large sends are chunked and paced with batching and deliberate waits rather than fired in one burst, which is what keeps them inside the API's rate limits. Scheduled jobs handle the time-based side: reminders for non-responders, follow-ups, and expiry. The 30-day media limit is handled by a job that re-uploads assets and rewrites the stored identifiers before they lapse, alongside a cleanup job that removes orphaned files so disk on the VPS doesn't grow without bound.</p>
-            <h5>Also covered</h5>
-            <p>Self-hosting and operating n8n on a Hostinger VPS — deployment, environment and credential management, HTTPS, persistence, and keeping long-running scheduled workflows alive.</p>
+            <p>A set of workflows sitting between a web app and the WhatsApp Business Cloud API. They handle sending, incoming replies, scheduled reminders, and the background jobs that stop the whole thing falling apart over time. MongoDB holds the truth about what was sent, what was delivered, and who replied.</p>
+            <h5>How it works</h5>
+            <p>Messages go out as approved templates. Replies come back on webhooks and get matched to the right record in MongoDB.</p>
+            <p>Every webhook is checked before it is trusted. There is a shared secret passed between the app and the workflows, and a signature check on the callbacks coming from Meta. These endpoints have to be publicly reachable to work at all, so the check is what stops anyone else from driving them.</p>
+            <p>Large sends are broken into batches with pauses between them instead of being fired all at once, which is what keeps them inside the rate limits. Scheduled jobs cover anything based on time: reminders for people who haven't replied, follow-ups, and expiry. The 30-day image problem is handled by a job that re-uploads the files and updates the stored references before they run out. A cleanup job removes files nobody points at any more, so the server disk doesn't slowly fill up.</p>
+            <h5>Also part of this</h5>
+            <p>Running and looking after n8n myself on a Hostinger VPS: setting it up, managing credentials, HTTPS, making sure nothing is lost on restart, and keeping scheduled workflows alive.</p>
           </div>
         </div>
       </div>
@@ -484,32 +498,32 @@
       <div class="proj-card">
         <div class="proj-head">
           <div class="proj-title">
-            <h4>Survey Sentiment Analysis Pipeline</h4>
+            <h4>Feedback Form With Automatic Sentiment</h4>
             <div class="proj-tags">
               <span class="tag">n8n</span><span class="tag">LLM</span><span class="tag">Structured Output</span><span class="tag">Google Sheets</span>
             </div>
           </div>
-          <span class="status shipped">Working</span>
+          <span class="status shipped">Built</span>
           <span class="proj-toggle">+</span>
         </div>
         <div class="proj-body">
           <div class="proj-body-inner">
             <div class="proj-media-grid">
               <figure class="proj-media">
-                <img loading="lazy" src="assets/media/sentiment-form/02.jpg" alt="The feedback form respondents fill in">
-                <figcaption>The form respondents see.</figcaption>
+                <img loading="lazy" src="assets/media/sentiment-form/02.jpg" alt="The customer feedback form people fill in">
+                <figcaption>The form people fill in.</figcaption>
               </figure>
               <figure class="proj-media">
                 <img loading="lazy" src="assets/media/sentiment-form/01.jpg" alt="Spreadsheet of responses with a sentiment column filled in automatically">
-                <figcaption>Each response arrives already labelled.</figcaption>
+                <figcaption>Every answer arrives already labelled.</figcaption>
               </figure>
             </div>
             <h5>Problem</h5>
-            <p>Free-text feedback is the most useful part of a survey and the least usable — nobody reads a thousand rows of it, and it can't be filtered or counted while it's prose.</p>
+            <p>Written feedback is the most useful part of a survey and the hardest to use. Nobody reads a thousand comments, and while they're still paragraphs you can't sort or count them.</p>
             <h5>Solution</h5>
-            <p>Every submission is classified the moment it arrives and lands in the spreadsheet with a sentiment label already attached, so the results are sortable and countable without a manual pass.</p>
-            <h5>Implementation</h5>
-            <p>An n8n form trigger feeds an LLM chain with a structured output parser, so the classification comes back as a defined schema instead of free text — the difference between a column you can filter and one you can't. The parsed result is merged back with the original submission so the raw answer and its label stay on the same row.</p>
+            <p>Every answer is read the moment it's submitted and lands in the spreadsheet with a sentiment label already on it. So the results can be sorted and counted without anyone going through them.</p>
+            <h5>How it works</h5>
+            <p>An n8n form sends each answer to a model that must reply in a fixed format, not free text. That's the difference between a column you can filter and one you can't. The label is then joined back onto the original answer so both sit on the same row.</p>
           </div>
         </div>
       </div>
@@ -517,32 +531,32 @@
       <div class="proj-card">
         <div class="proj-head">
           <div class="proj-title">
-            <h4>Daily Weather &amp; Air Quality Briefing</h4>
+            <h4>Daily Weather &amp; Air Quality Email</h4>
             <div class="proj-tags">
               <span class="tag">n8n</span><span class="tag">AI Agent</span><span class="tag">REST APIs</span><span class="tag">Gmail</span>
             </div>
           </div>
-          <span class="status shipped">Working</span>
+          <span class="status shipped">Built</span>
           <span class="proj-toggle">+</span>
         </div>
         <div class="proj-body">
           <div class="proj-body-inner">
             <div class="proj-media-grid">
               <figure class="proj-media">
-                <img loading="lazy" src="assets/media/weather-air-quality/01.jpg" alt="n8n workflow combining weather and air quality APIs into an emailed briefing">
-                <figcaption>Two data sources, one written summary.</figcaption>
+                <img loading="lazy" src="assets/media/weather-air-quality/01.jpg" alt="n8n workflow combining weather and air quality data into an emailed summary">
+                <figcaption>Three sources, one written summary.</figcaption>
               </figure>
               <figure class="proj-media">
-                <img loading="lazy" src="assets/media/weather-air-quality/02.jpg" alt="The resulting briefing email">
-                <figcaption>The briefing that arrives.</figcaption>
+                <img loading="lazy" src="assets/media/weather-air-quality/02.jpg" alt="The daily weather and air quality email">
+                <figcaption>The email that arrives each day.</figcaption>
               </figure>
             </div>
             <h5>Problem</h5>
-            <p>Weather and air quality live in different services, and raw API output — an AQI integer, a temperature in Kelvin — isn't advice.</p>
+            <p>Weather and air quality come from different services, and neither gives you advice. An air quality number on its own doesn't tell you whether to go for a run.</p>
             <h5>Solution</h5>
-            <p>A scheduled briefing that pulls both, interprets them together, and emails a short readable summary saying what the numbers mean for the day.</p>
-            <h5>Implementation</h5>
-            <p>An n8n agent runs on a schedule with three tools: an OpenWeatherMap node, an HTTP node for the air-quality API, and Gmail for delivery. Giving the agent the APIs as tools rather than fetching first and summarizing after means it can pull only what it needs and write the interpretation in one pass.</p>
+            <p>A daily email for Amman that pulls both, reads them together, and writes a short summary of what the numbers actually mean for the day.</p>
+            <h5>How it works</h5>
+            <p>An agent runs on a schedule with four tools: weather, air quality for a specific Amman monitoring station, a second weather source, and Gmail to send. The second weather source exists only as a backup, and the agent is told in writing to use it only if the first one fails. Giving the agent the data sources as tools, rather than fetching everything first, means it pulls what it needs and writes the summary in one go.</p>
           </div>
         </div>
       </div>
@@ -555,27 +569,27 @@
               <span class="tag">n8n</span><span class="tag">REST APIs</span><span class="tag">Gmail</span><span class="tag">Scheduling</span>
             </div>
           </div>
-          <span class="status shipped">Working</span>
+          <span class="status shipped">Built</span>
           <span class="proj-toggle">+</span>
         </div>
         <div class="proj-body">
           <div class="proj-body-inner">
             <div class="proj-media-grid">
               <figure class="proj-media">
-                <img loading="lazy" src="assets/media/daily-digest-email/01.jpg" alt="n8n workflow merging two API responses into a scheduled email">
-                <figcaption>Two calls, merged, sent.</figcaption>
+                <img loading="lazy" src="assets/media/daily-digest-email/01.jpg" alt="n8n workflow merging two API responses into one scheduled email">
+                <figcaption>Two calls, joined, sent.</figcaption>
               </figure>
               <figure class="proj-media">
-                <img loading="lazy" src="assets/media/daily-digest-email/02.jpg" alt="The digest email as received">
-                <figcaption>The email as received.</figcaption>
+                <img loading="lazy" src="assets/media/daily-digest-email/02.jpg" alt="The digest email as received in Gmail">
+                <figcaption>The email as it arrives.</figcaption>
               </figure>
             </div>
             <h5>Problem</h5>
-            <p>Composing a recurring email from several sources by hand — the small, boring job that never gets done consistently.</p>
+            <p>Putting together a regular email from a few different sources by hand. The kind of small job that never gets done consistently.</p>
             <h5>Solution</h5>
-            <p>A scheduled workflow that calls two public APIs, combines the responses into one message, and sends it on a fixed cadence.</p>
-            <h5>Implementation</h5>
-            <p>Schedule trigger, two parallel HTTP requests, a merge node to join the responses into a single item, and Gmail for delivery. Deliberately small — the pattern of fan-out, merge, and send is the reusable part.</p>
+            <p>A workflow that runs on a timer, calls two public APIs, joins the answers into one message, and sends it.</p>
+            <h5>How it works</h5>
+            <p>A timer, two API calls running side by side, a step that joins them into one item, and Gmail to send. Kept small on purpose. The reusable part is the shape: call several things at once, join them, send one message.</p>
           </div>
         </div>
       </div>
@@ -583,20 +597,20 @@
       <div class="proj-card">
         <div class="proj-head">
           <div class="proj-title">
-            <h4>Hotel Reservation Intake</h4>
+            <h4>Hotel Booking Form</h4>
             <div class="proj-tags">
               <span class="tag">n8n</span><span class="tag">Forms</span><span class="tag">Google Sheets</span><span class="tag">Gmail</span>
             </div>
           </div>
-          <span class="status shipped">Working</span>
+          <span class="status shipped">Built</span>
           <span class="proj-toggle">+</span>
         </div>
         <div class="proj-body">
           <div class="proj-body-inner">
             <div class="proj-media-grid">
               <figure class="proj-media">
-                <img loading="lazy" src="assets/media/hotel-reservation/01.jpg" alt="n8n workflow saving a booking form to a sheet and emailing a confirmation">
-                <figcaption>Booking form to record and confirmation.</figcaption>
+                <img loading="lazy" src="assets/media/hotel-reservation/01.jpg" alt="n8n workflow saving a booking to a sheet and emailing a confirmation">
+                <figcaption>Saved and confirmed in one step.</figcaption>
               </figure>
               <figure class="proj-media">
                 <img loading="lazy" src="assets/media/hotel-reservation/02.jpg" alt="The hotel room reservation form guests fill in">
@@ -604,11 +618,11 @@
               </figure>
             </div>
             <h5>Problem</h5>
-            <p>Booking requests that arrive without being recorded anywhere, and guests left unsure whether the request went through.</p>
+            <p>Booking requests that arrive without being written down anywhere, and guests left wondering whether the request went through at all.</p>
             <h5>Solution</h5>
-            <p>A booking form that writes every submission to a shared sheet and sends the guest a confirmation immediately.</p>
-            <h5>Implementation</h5>
-            <p>An n8n form trigger fans out to Google Sheets for the record and Gmail for the confirmation. Small on purpose — the value is that intake and acknowledgement happen in the same step, so nothing sits unrecorded.</p>
+            <p>A booking form that saves every request to a shared sheet and emails the guest a confirmation right away.</p>
+            <h5>How it works</h5>
+            <p>An n8n form does two things at once: writes the row to Google Sheets and sends the confirmation by Gmail. It's a small workflow, and the point is that recording it and confirming it happen together, so nothing sits unnoticed.</p>
           </div>
         </div>
       </div>
@@ -621,9 +635,9 @@
       <div class="proj-card">
         <div class="proj-head">
           <div class="proj-title">
-            <h4>Jordanian Currency Detection</h4>
+            <h4>Jordanian Currency Detection &amp; Counting</h4>
             <div class="proj-tags">
-              <span class="tag">YOLO</span><span class="tag">Object Detection</span><span class="tag">Custom Dataset</span><span class="tag">Streamlit</span>
+              <span class="tag">YOLOv8</span><span class="tag">Object Detection</span><span class="tag">Own Dataset</span><span class="tag">Streamlit</span>
             </div>
           </div>
           <span class="status shipped">Live demo</span>
@@ -632,27 +646,27 @@
         <div class="proj-body">
           <div class="proj-body-inner">
             <div class="proj-links">
-              <a href="https://jordanian-currency-ahmad.streamlit.app/" target="_blank" rel="noopener">Try it live ↗</a>
+              <a href="https://jordanian-currency-ahmad.streamlit.app/" target="_blank" rel="noopener">Try it now ↗</a>
               <a href="https://github.com/AhmadMaraqa20/Jordanian-Currency" target="_blank" rel="noopener">GitHub ↗</a>
             </div>
-            <!-- Screenshots: save the app screenshots as assets/media/jordanian-currency/01.jpg and 02.jpg, then uncomment
+            <!-- Screenshots: save the app screenshots as assets/media/jordanian-currency/01.jpg and 02.jpg, then delete these two comment markers
             <div class="proj-media-grid">
               <figure class="proj-media">
-                <img loading="lazy" src="assets/media/jordanian-currency/01.jpg" alt="Upload interface of the currency detection app">
-                <figcaption>Upload an image of notes and coins.</figcaption>
+                <img loading="lazy" src="assets/media/jordanian-currency/01.jpg" alt="Upload screen of the currency detection app">
+                <figcaption>Upload a photo of notes and coins.</figcaption>
               </figure>
               <figure class="proj-media">
-                <img loading="lazy" src="assets/media/jordanian-currency/02.jpg" alt="Detected banknotes and coins with labelled bounding boxes">
-                <figcaption>Each note and coin detected with its denomination.</figcaption>
+                <img loading="lazy" src="assets/media/jordanian-currency/02.jpg" alt="Detected banknotes and coins with their values marked">
+                <figcaption>Each note and coin found and named.</figcaption>
               </figure>
             </div>
             -->
             <h5>Problem</h5>
-            <p>Detecting and identifying Jordanian currency in a photo — notes and coins together, in ordinary lighting, at whatever angle the picture was taken. No public dataset existed for it.</p>
+            <p>Finding and naming Jordanian money in a photo. Notes and coins together, in normal room lighting, at whatever angle the picture was taken. No public dataset for this existed.</p>
             <h5>Solution</h5>
-            <p>A detector that locates every note and coin in an image and labels each with its denomination, served through a web app where you upload a photo and get the annotated result back.</p>
-            <h5>Implementation</h5>
-            <p>The dataset was collected by hand and expanded with augmentation — rotation and brightness adjustment — to cover the angles and lighting the model would actually meet, which is the part that matters when the source images all come from the same few sessions. Detection uses YOLO, chosen for single-pass real-time inference, and the trained model is deployed as a Streamlit app.</p>
+            <p>A model that finds every note and coin in a photo, marks each one with its value, and counts them up. It runs as a web app where you upload a picture and get the marked-up result back.</p>
+            <h5>How it works</h5>
+            <p>We collected the photos ourselves, then grew the dataset by rotating and re-lighting them. That step matters more than it sounds: when all your photos come from the same few sessions, the model only learns those conditions. Detection uses YOLOv8, which finds everything in one pass and is fast enough for live use. The trained model is deployed as a Streamlit app.</p>
           </div>
         </div>
       </div>
@@ -660,9 +674,9 @@
       <div class="proj-card">
         <div class="proj-head">
           <div class="proj-title">
-            <h4>Fire &amp; Smoke Detection from IoT Sensors</h4>
+            <h4>Fire Detection from Sensor Readings</h4>
             <div class="proj-tags">
-              <span class="tag">Scikit-learn</span><span class="tag">Neural Network</span><span class="tag">Ensemble</span><span class="tag">Streamlit</span>
+              <span class="tag">Scikit-learn</span><span class="tag">Neural Network</span><span class="tag">Ensembles</span><span class="tag">Streamlit</span>
             </div>
           </div>
           <span class="status shipped">Live demo</span>
@@ -671,27 +685,27 @@
         <div class="proj-body">
           <div class="proj-body-inner">
             <div class="proj-links">
-              <a href="https://fire-detection-ahmad.streamlit.app/" target="_blank" rel="noopener">Try it live ↗</a>
+              <a href="https://fire-detection-ahmad.streamlit.app/" target="_blank" rel="noopener">Try it now ↗</a>
               <a href="https://github.com/AhmadMaraqa20/Fire-Detection" target="_blank" rel="noopener">GitHub ↗</a>
             </div>
-            <!-- Screenshots: save the app screenshots as assets/media/fire-detection/01.jpg and 02.jpg, then uncomment
+            <!-- Screenshots: save the app screenshots as assets/media/fire-detection/01.jpg and 02.jpg, then delete these two comment markers
             <div class="proj-media-grid">
               <figure class="proj-media">
                 <img loading="lazy" src="assets/media/fire-detection/01.jpg" alt="Sensor input form of the fire detection app">
-                <figcaption>Thirteen live sensor readings as input.</figcaption>
+                <figcaption>Thirteen sensor readings go in.</figcaption>
               </figure>
               <figure class="proj-media">
-                <img loading="lazy" src="assets/media/fire-detection/02.jpg" alt="Predictions from seven models shown side by side">
-                <figcaption>All seven models predict side by side.</figcaption>
+                <img loading="lazy" src="assets/media/fire-detection/02.jpg" alt="Predictions from seven models listed together">
+                <figcaption>All seven models answer at once.</figcaption>
               </figure>
             </div>
             -->
             <h5>Problem</h5>
-            <p>Detecting fire from environmental sensors early enough to matter. A single classifier gives you a yes or no with no sense of how much to trust it — and for a safety signal, that's the part you care about.</p>
+            <p>Spotting a fire from sensor readings early enough to be worth something. One model gives you a yes or a no and no sense of how sure it is, which for a safety warning is exactly what you want to know.</p>
             <h5>Solution</h5>
-            <p>A web app that takes thirteen live sensor readings — temperature, humidity, TVOC, eCO2, raw hydrogen and ethanol, pressure, and particulate counts — and shows the verdict from seven different models at once. Agreement across all seven is a far stronger signal than any one of them alone.</p>
-            <h5>Implementation</h5>
-            <p>Trained on the IoT smoke-detection dataset: logistic regression, decision tree, random forest, naive Bayes, histogram gradient boosting, a voting ensemble, and a Keras neural network. Every model is trained, serialized, and loaded by the app, which runs all of them on each input and reports them side by side rather than hiding the disagreement behind one number. Deployed on Streamlit.</p>
+            <p>A web app that takes thirteen sensor readings — temperature, humidity, gas and air quality levels, pressure, and particle counts — and shows what seven different models each think. When all seven agree, that means far more than any one of them saying so alone.</p>
+            <h5>How it works</h5>
+            <p>Seven models trained on a public smoke detection dataset: logistic regression, decision tree, random forest, naive Bayes, gradient boosting, a voting ensemble that combines several of them, and a neural network built in Keras. All seven are saved and loaded by the app, which runs every one on your input and shows the answers side by side instead of hiding any disagreement behind a single number. Deployed on Streamlit.</p>
           </div>
         </div>
       </div>
@@ -704,7 +718,7 @@
       <div class="proj-card">
         <div class="proj-head">
           <div class="proj-title">
-            <h4>RTLS Positioning Classification Models</h4>
+            <h4>Indoor Positioning Models</h4>
             <div class="proj-tags">
               <span class="tag">KNN</span><span class="tag">Decision Trees</span><span class="tag">Random Forest</span><span class="tag">BLE</span>
             </div>
@@ -715,11 +729,11 @@
         <div class="proj-body">
           <div class="proj-body-inner">
             <h5>Problem</h5>
-            <p>Estimating where something physically is, in real time, from BLE signal strength — a measurement that swings with reflections, obstructions, and whichever way a person happens to be standing.</p>
+            <p>Working out where something physically is, in real time, using nothing but Bluetooth signal strength. That signal bounces off walls, gets blocked by objects, and changes depending on which way a person is standing.</p>
             <h5>Solution</h5>
-            <p>Trained and compared several classical classifiers to map signal features to a location zone, and evaluated which held up on real collected data rather than on a clean split.</p>
-            <h5>Implementation</h5>
-            <p>KNN, decision trees, and random forests evaluated against BLE and IoT sensor data collected during the RTLS work at Penguin Location Services.</p>
+            <p>Trained and compared several standard models to turn signal readings into a location zone, then checked which ones held up on real collected data rather than a clean test set.</p>
+            <h5>How it works</h5>
+            <p>KNN, decision trees and random forests, tested against BLE and sensor data collected during the indoor positioning work at Penguin Location Services.</p>
           </div>
         </div>
       </div>
@@ -727,7 +741,7 @@
       <div class="proj-card">
         <div class="proj-head">
           <div class="proj-title">
-            <h4>Custom Probabilistic RTLS Model</h4>
+            <h4>Custom Probabilistic Positioning Model</h4>
             <div class="proj-tags">
               <span class="tag">Probabilistic Modeling</span><span class="tag">RTLS</span>
             </div>
@@ -738,11 +752,11 @@
         <div class="proj-body">
           <div class="proj-body-inner">
             <h5>Problem</h5>
-            <p>Off-the-shelf classifiers return a zone and nothing else. In positioning, how uncertain the estimate is matters as much as the estimate — and that information was being thrown away.</p>
+            <p>Standard models give you a zone and nothing else. In positioning, how sure you are matters as much as the answer itself, and that information was being thrown away.</p>
             <h5>Solution</h5>
-            <p>A probabilistic model built for this specific setup, keeping the confidence of a position estimate as part of the output instead of collapsing it to a single label.</p>
-            <h5>Implementation</h5>
-            <p>Developed as an alternative to the classifier baseline above, using the same collected BLE data for comparison.</p>
+            <p>A probabilistic model built for this specific setup, which keeps how confident it is as part of the answer instead of reducing everything to one label.</p>
+            <h5>How it works</h5>
+            <p>Built as an alternative to the standard models above, and tested on the same collected Bluetooth data so the two could be compared directly.</p>
           </div>
         </div>
       </div>
@@ -751,12 +765,12 @@
     <!-- ============ OTHER ENGINEERING ============ -->
     <div class="cat-group" data-cat="other">
       <h3>Other Engineering</h3>
-      <p class="cat-note">The hardware and systems background under the AI work.</p>
+      <p class="cat-note">The hardware and systems background underneath the AI work.</p>
 
       <div class="proj-card">
         <div class="proj-head">
           <div class="proj-title">
-            <h4>Five-Stage RISC-V Pipeline</h4>
+            <h4>Five-Stage RISC-V Processor</h4>
             <div class="proj-tags"><span class="tag">Verilog</span><span class="tag">Digital Design</span></div>
           </div>
           <span class="status prototype">Academic</span>
@@ -765,7 +779,7 @@
         <div class="proj-body">
           <div class="proj-body-inner">
             <h5>Summary</h5>
-            <p>A full five-stage RISC-V pipeline implemented in Verilog — fetch, decode, execute, memory, writeback — including the hazard handling that makes the stages safe to overlap.</p>
+            <p>A full five-stage RISC-V processor pipeline built in Verilog: fetch, decode, execute, memory and write-back.</p>
           </div>
         </div>
       </div>
@@ -776,13 +790,13 @@
             <h4>Conveyor Belt Object Detector</h4>
             <div class="proj-tags"><span class="tag">PIC Microcontroller</span><span class="tag">Embedded C</span></div>
           </div>
-          <span class="status prototype">Prototype</span>
+          <span class="status prototype">Academic</span>
           <span class="proj-toggle">+</span>
         </div>
         <div class="proj-body">
           <div class="proj-body-inner">
             <h5>Summary</h5>
-            <p>A conveyor-belt object detection prototype driven by a PIC microcontroller — sensing objects as they pass and acting on the belt in response.</p>
+            <p>A conveyor belt that detects objects as they pass, built around a PIC microcontroller.</p>
           </div>
         </div>
       </div>
@@ -790,7 +804,7 @@
       <div class="proj-card">
         <div class="proj-head">
           <div class="proj-title">
-            <h4>Encrypted USART Communication</h4>
+            <h4>Encrypted Serial Communication</h4>
             <div class="proj-tags"><span class="tag">PIC16F877A</span><span class="tag">Assembly</span></div>
           </div>
           <span class="status prototype">Academic</span>
@@ -799,7 +813,7 @@
         <div class="proj-body">
           <div class="proj-body-inner">
             <h5>Summary</h5>
-            <p>An encrypted serial link built on the USART module of a PIC16F877A, written in assembly — encryption and framing handled at the register level.</p>
+            <p>An encrypted serial link between two devices, built on the USART module of a PIC16F877A and written in assembly.</p>
           </div>
         </div>
       </div>
@@ -816,13 +830,25 @@
         <div class="proj-body">
           <div class="proj-body-inner">
             <h5>Summary</h5>
-            <p>A furniture e-commerce front end built with plain HTML, CSS, and JavaScript.</p>
+            <p>A furniture shop website built with plain HTML, CSS and JavaScript.</p>
           </div>
         </div>
       </div>
 
     </div>
 
+  </div>
+</section>
+
+<section class="contact-band">
+  <div class="wrap">
+    <h2>Want to talk about one of these?</h2>
+    <p>I'm open to AI and machine learning roles, and to freelance automation work.</p>
+    <div class="hero-links">
+      <a class="btn primary" href="mailto:ahmadmaraka2002@gmail.com">Email me</a>
+      <a class="btn" href="https://www.linkedin.com/in/ahmad-maraqa02" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="btn" href="assets/Ahmad_Maraqa_CV_AI_Engineer.pdf">Download CV</a>
+    </div>
   </div>
 </section>
 

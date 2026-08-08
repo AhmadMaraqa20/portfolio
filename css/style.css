@@ -358,6 +358,23 @@ section h2 {
   padding-left: 12px;
   margin: 0 0 18px;
 }
+.legend {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 10px 20px;
+  margin: -4px 0 38px;
+  padding: 16px 18px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  font-size: 13px;
+  color: var(--text-lo);
+}
+.legend span { display: flex; align-items: center; gap: 9px; }
+.legend .status { cursor: default; }
+.contact-band { text-align: center; }
+.contact-band h2 { margin-bottom: 8px; }
+.contact-band p { color: var(--text-lo); margin: 0 auto 22px; max-width: 46ch; }
+.contact-band .hero-links { justify-content: center; }
 .cat-note {
   color: var(--text-lo);
   margin-top: -6px;
