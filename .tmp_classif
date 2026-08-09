@@ -1,0 +1,29 @@
+      <div class="proj-card">
+        <div class="proj-head">
+          <div class="proj-title">
+            <h4>Teaching a Classifier to Say "This Isn't One of Mine"</h4>
+            <div class="proj-tags">
+              <span class="tag">TensorFlow</span><span class="tag">Keras</span><span class="tag">CNN</span><span class="tag">Multi-Label</span><span class="tag">MNIST</span><span class="tag">CIFAR-10</span>
+            </div>
+          </div>
+          <span class="status prototype">Research</span>
+          <span class="proj-toggle">+</span>
+        </div>
+        <div class="proj-body">
+          <div class="proj-body-inner">
+            <div class="proj-links">
+              <a href="https://github.com/AhmadMaraqa20/Classification_Problem" target="_blank" rel="noopener">Notebook &amp; write-up on GitHub ↗</a>
+            </div>
+            <h5>Problem</h5>
+            <p>A normal image classifier always answers. Softmax makes the class scores add up to 100%, so whatever you show the model, one class has to win. Train it on handwritten digits, show it a photo of an aeroplane, and it will tell you that's a 7 — with confidence. In anything real, being able to say "this isn't one of mine" matters as much as picking the right class.</p>
+            <h5>Approach</h5>
+            <p>I built the same small convolutional network twice and changed only the last layer, so nothing else could explain the difference.</p>
+            <p>The first version is the standard one: ten outputs through softmax, trained on MNIST digits. The second keeps exactly the same layers but replaces softmax with a sigmoid on each output and trains with binary cross-entropy. That treats each digit as its own yes/no question instead of a ten-way contest, so the scores no longer have to add up to anything.</p>
+            <h5>The test</h5>
+            <p>I then fed both models CIFAR-10 images — aeroplanes, cats, ships — pictures containing no digit at all.</p>
+            <p>The softmax model labelled every one of them as a digit, because it had no other option. The sigmoid version scored each class independently, so all ten scores could come back low at once. With a threshold of 0.7, if nothing clears the bar the model returns "this image doesn't belong here" instead of guessing.</p>
+            <h5>Why it matters</h5>
+            <p>The change is small — one activation function and one loss function — but it moves the decision from "which of these is it" to "is it any of these". That is the difference between a model that fails loudly and one that fails silently, and silent failure is the expensive kind.</p>
+          </div>
+        </div>
+      </div>

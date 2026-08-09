@@ -358,6 +358,7 @@ section h2 {
   padding-left: 12px;
   margin: 0 0 18px;
 }
+.status-pair { display: inline-flex; flex-wrap: wrap; gap: 6px; }
 .legend {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
