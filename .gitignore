@@ -1,3 +1,6 @@
 # Workflow exports are never published — they hold credentials, IDs and client detail.
 *.json
 projects/
+
+# stray scratch files
+.tmp_*
