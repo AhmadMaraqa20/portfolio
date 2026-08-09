@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Projects — Ahmad Maraqa</title>
 <meta name="description" content="Machine learning, computer vision, LLM agents, RAG and AI automation projects built by Ahmad Maraqa.">
+<script>(function(){try{var t=localStorage.getItem('theme');if(t){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
@@ -22,6 +23,7 @@
       <li><a href="projects.html" class="active">Projects</a></li>
       <li><a href="skills.html">Skills</a></li>
       <li><a href="assets/Ahmad_Maraqa_CV_AI_Engineer.pdf">Resume ↓</a></li>
+      <li class="nav-theme"><button class="theme-toggle" type="button" aria-label="Switch between light and dark theme" title="Switch theme">◑</button></li>
     </ul>
   </div>
 </header>
@@ -47,7 +49,6 @@
     <div class="legend">
       <span><b class="status production">Production</b> running and in real use</span>
       <span><b class="status shipped">Live demo</b> you can try it right now</span>
-      <span><b class="status shipped">Built</b> built and working</span>
       <span><b class="status prototype">Research</b> an experiment, written up</span>
       <span><b class="status prototype">Academic</b> university work</span>
     </div>
@@ -340,7 +341,7 @@
               <span class="tag">RAG</span><span class="tag">Pinecone</span><span class="tag">Embeddings</span><span class="tag">Google Drive</span><span class="tag">n8n</span>
             </div>
           </div>
-          <span class="status shipped">Built</span>
+          <span class="status production">Production</span>
           <span class="proj-toggle">+</span>
         </div>
         <div class="proj-body">
@@ -378,7 +379,7 @@
               <span class="tag">RAG</span><span class="tag">Pinecone</span><span class="tag">Vector Search</span><span class="tag">n8n</span>
             </div>
           </div>
-          <span class="status shipped">Built</span>
+          <span class="status production">Production</span>
           <span class="proj-toggle">+</span>
         </div>
         <div class="proj-body">
@@ -411,7 +412,7 @@
               <span class="tag">n8n</span><span class="tag">Google Veo 3</span><span class="tag">Prompt Engineering</span><span class="tag">Structured Output</span>
             </div>
           </div>
-          <span class="status shipped">Built</span>
+          <span class="status production">Production</span>
           <span class="proj-toggle">+</span>
         </div>
         <div class="proj-body">
@@ -445,9 +446,9 @@
       <div class="proj-card">
         <div class="proj-head">
           <div class="proj-title">
-            <h4>WhatsApp Messaging Platform at Scale</h4>
+            <h4>Business Messaging on the WhatsApp Cloud API</h4>
             <div class="proj-tags">
-              <span class="tag">WhatsApp Cloud API</span><span class="tag">MongoDB</span><span class="tag">Webhook Security</span><span class="tag">Self-hosted n8n</span><span class="tag">Hostinger VPS</span>
+              <span class="tag">WhatsApp Cloud API</span><span class="tag">n8n</span><span class="tag">MongoDB</span><span class="tag">Webhook Security</span><span class="tag">Self-hosted</span><span class="tag">Hostinger VPS</span>
             </div>
           </div>
           <span class="status production">Production</span>
@@ -455,17 +456,19 @@
         </div>
         <div class="proj-body">
           <div class="proj-body-inner">
-            <p class="proj-note">Client work. I describe the engineering only. No diagrams, no workflow files, no client details.</p>
+            <p class="proj-note">Client work, described at the level of the engineering only.</p>
             <h5>Problem</h5>
-            <p>Sending WhatsApp messages at scale on the official API means living with its rules. Message templates need approval before you can use them. There are limits on how fast you can send. Delivery updates arrive out of order. And any image you upload stops working after 30 days, which quietly breaks every message that points at it.</p>
+            <p>Sending business messages on the official WhatsApp API is not like calling an ordinary REST endpoint. Every outbound template has to be approved by Meta before it can be used. There are hard limits on send rate. Delivery and read receipts arrive later, asynchronously, and not always in order. And any media you upload expires after 30 days, which silently breaks every message that still points at it.</p>
+            <p>Get any of that wrong at volume and the failures are quiet ones: messages that never arrive, receipts that never get matched, images that stop rendering weeks after they were sent.</p>
             <h5>Solution</h5>
-            <p>A set of workflows sitting between a web app and the WhatsApp Business Cloud API. They handle sending, incoming replies, scheduled reminders, and the background jobs that stop the whole thing falling apart over time. MongoDB holds the truth about what was sent, what was delivered, and who replied.</p>
+            <p>An integration layer built in n8n between a web application and the WhatsApp Business Cloud API. It handles outbound sending, inbound replies, and the background maintenance that keeps a long-running messaging system healthy. MongoDB is the single source of truth for what was sent, what was delivered, and what came back.</p>
             <h5>How it works</h5>
-            <p>Messages go out as approved templates. Replies come back on webhooks and get matched to the right record in MongoDB.</p>
-            <p>Every webhook is checked before it is trusted. There is a shared secret passed between the app and the workflows, and a signature check on the callbacks coming from Meta. These endpoints have to be publicly reachable to work at all, so the check is what stops anyone else from driving them.</p>
-            <p>Large sends are broken into batches with pauses between them instead of being fired all at once, which is what keeps them inside the rate limits. Scheduled jobs cover anything based on time: reminders for people who haven't replied, follow-ups, and expiry. The 30-day image problem is handled by a job that re-uploads the files and updates the stored references before they run out. A cleanup job removes files nobody points at any more, so the server disk doesn't slowly fill up.</p>
-            <h5>Also part of this</h5>
-            <p>Running and looking after n8n myself on a Hostinger VPS: setting it up, managing credentials, HTTPS, making sure nothing is lost on restart, and keeping scheduled workflows alive.</p>
+            <p>Outbound messages go out as approved templates. Inbound messages and delivery receipts arrive on webhooks and are matched back to the right record in MongoDB, so the state of every conversation stays correct even when callbacks land out of order.</p>
+            <p><b>Securing the webhooks.</b> These endpoints have to be publicly reachable for the API to reach them at all, which means anyone can find them. Every incoming request is verified before it is acted on: a shared secret header between the application and the automation layer, and cryptographic signature verification on the callbacks coming from Meta. Without that, a public endpoint is an open invitation to write whatever you like into the database.</p>
+            <p><b>Staying inside the limits.</b> Bulk sends are split into batches with deliberate pauses between them rather than fired in one burst, which keeps throughput under the API's rate limits instead of triggering them.</p>
+            <p><b>Keeping it healthy over time.</b> Timed workflows handle the work that has to happen on a clock rather than in response to a message. The 30-day media expiry is handled by a job that re-uploads assets and rewrites the stored references before they lapse, so nothing breaks quietly. A separate cleanup job removes files that no record points at any more, so disk on the server doesn't grow without limit.</p>
+            <h5>Running it</h5>
+            <p>I self-host and maintain n8n for this on a Hostinger VPS — deployment, credential management, HTTPS, persistence across restarts, and keeping long-running timed workflows alive.</p>
           </div>
         </div>
       </div>
@@ -478,7 +481,7 @@
               <span class="tag">n8n</span><span class="tag">LLM</span><span class="tag">Structured Output</span><span class="tag">Google Sheets</span>
             </div>
           </div>
-          <span class="status shipped">Built</span>
+          <span class="status production">Production</span>
           <span class="proj-toggle">+</span>
         </div>
         <div class="proj-body">
@@ -511,7 +514,7 @@
               <span class="tag">n8n</span><span class="tag">AI Agent</span><span class="tag">REST APIs</span><span class="tag">Gmail</span>
             </div>
           </div>
-          <span class="status shipped">Built</span>
+          <span class="status production">Production</span>
           <span class="proj-toggle">+</span>
         </div>
         <div class="proj-body">
@@ -544,7 +547,7 @@
               <span class="tag">n8n</span><span class="tag">REST APIs</span><span class="tag">Gmail</span><span class="tag">Scheduling</span>
             </div>
           </div>
-          <span class="status shipped">Built</span>
+          <span class="status production">Production</span>
           <span class="proj-toggle">+</span>
         </div>
         <div class="proj-body">
@@ -577,7 +580,7 @@
               <span class="tag">n8n</span><span class="tag">Forms</span><span class="tag">Google Sheets</span><span class="tag">Gmail</span>
             </div>
           </div>
-          <span class="status shipped">Built</span>
+          <span class="status production">Production</span>
           <span class="proj-toggle">+</span>
         </div>
         <div class="proj-body">
@@ -722,7 +725,7 @@
     <!-- ============ OTHER ENGINEERING ============ -->
     <div class="cat-group" data-cat="other">
       <h3>Other Engineering</h3>
-      <p class="cat-note">The hardware and systems background underneath the AI work.</p>
+      <p class="cat-note">Degree work from the hardware and systems side of computer engineering.</p>
 
       <div class="proj-card">
         <div class="proj-head">

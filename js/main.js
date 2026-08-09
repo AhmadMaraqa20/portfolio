@@ -1,5 +1,35 @@
 // Mobile nav toggle
 document.addEventListener("DOMContentLoaded", () => {
+  // Light / dark theme. Follows the system until the visitor picks one.
+  const root = document.documentElement;
+  const themeBtn = document.querySelector(".theme-toggle");
+  const prefersLight = window.matchMedia("(prefers-color-scheme: light)");
+  const current = () =>
+    root.getAttribute("data-theme") || (prefersLight.matches ? "light" : "dark");
+  const label = () => {
+    if (!themeBtn) return;
+    const next = current() === "dark" ? "light" : "dark";
+    themeBtn.textContent = current() === "dark" ? "☀" : "☾";
+    themeBtn.setAttribute("aria-label", `Switch to ${next} theme`);
+    themeBtn.title = `Switch to ${next} theme`;
+  };
+  label();
+  prefersLight.addEventListener("change", () => {
+    if (!root.getAttribute("data-theme")) label();
+  });
+  if (themeBtn) {
+    themeBtn.addEventListener("click", () => {
+      const next = current() === "dark" ? "light" : "dark";
+      root.setAttribute("data-theme", next);
+      try {
+        localStorage.setItem("theme", next);
+      } catch (e) {
+        /* private mode — the choice just won't persist */
+      }
+      label();
+    });
+  }
+
   const toggle = document.querySelector(".nav-toggle");
   const links = document.querySelector(".nav-links");
   if (toggle && links) {

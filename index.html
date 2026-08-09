@@ -12,6 +12,7 @@
 <meta property="og:description" content="AI Research Engineer working on machine learning, LLM agents, computer vision and AI automation.">
 <meta property="og:image" content="https://ahmadmaraqa20.github.io/portfolio/assets/media/og-cover.png">
 <meta name="twitter:card" content="summary_large_image">
+<script>(function(){try{var t=localStorage.getItem('theme');if(t){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
@@ -29,6 +30,7 @@
       <li><a href="projects.html">Projects</a></li>
       <li><a href="skills.html">Skills</a></li>
       <li><a href="assets/Ahmad_Maraqa_CV_AI_Engineer.pdf">Resume ↓</a></li>
+      <li class="nav-theme"><button class="theme-toggle" type="button" aria-label="Switch between light and dark theme" title="Switch theme">◑</button></li>
     </ul>
   </div>
 </header>
@@ -86,10 +88,34 @@
       </div>
       <div class="skill-card">
         <h3>AI Automation</h3>
-        <p style="color:var(--text-lo); margin:0;">Putting those models to work — connecting them to databases, APIs and messaging platforms, then running the result in production.</p>
+        <p style="color:var(--text-lo); margin:0;">Putting models and agents to work with n8n — connecting them to databases, APIs and messaging platforms, then running the result in production.</p>
       </div>
     </div>
-    <p style="margin-top:26px;"><a class="btn primary" href="projects.html">See the projects →</a></p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <p class="eyebrow">selected work</p>
+    <h2>Three that show the range</h2>
+    <div class="skill-grid">
+      <div class="skill-card">
+        <span class="status production">Production</span>
+        <h3 style="margin-top:12px;">Business Messaging on the WhatsApp Cloud API</h3>
+        <p style="color:var(--text-lo); margin:0;">An n8n integration layer running on the official API — verified webhooks, batched sending inside the rate limits, and timed jobs that keep it healthy as media expires.</p>
+      </div>
+      <div class="skill-card">
+        <span class="status shipped">Live demo</span>
+        <h3 style="margin-top:12px;">Jordanian Currency Detection</h3>
+        <p style="color:var(--text-lo); margin:0;">A YOLOv8 detector trained on a dataset we collected and augmented ourselves, because no public one existed. Deployed as an app you can upload a photo to.</p>
+      </div>
+      <div class="skill-card">
+        <span class="status prototype">Research</span>
+        <h3 style="margin-top:12px;">Teaching a Classifier to Reject Unknown Input</h3>
+        <p style="color:var(--text-lo); margin:0;">The same CNN built twice — softmax against sigmoid — to show why a standard classifier can never say "this isn't one of mine", and what to change so it can.</p>
+      </div>
+    </div>
+    <p style="margin-top:26px;"><a class="btn primary" href="projects.html">See all projects →</a></p>
   </div>
 </section>
 

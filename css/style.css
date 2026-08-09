@@ -16,12 +16,60 @@
   --signal:     #3ED6B5;   /* teal ping accent */
   --signal-dim: #2A9C86;
   --amber:      #E8A23D;   /* secondary accent */
+  --nav-bg:     rgba(16, 20, 26, 0.86);
+  --on-signal:  #0B1512;   /* text sitting on a filled accent */
+  --hover-tint: rgba(62, 214, 181, 0.04);
+  --note-tint:  rgba(62, 214, 181, 0.06);
 
   --font-display: "Space Grotesk", "Segoe UI", sans-serif;
   --font-body: "Inter", "Segoe UI", sans-serif;
   --font-mono: "JetBrains Mono", "Consolas", monospace;
 
   --max-w: 1080px;
+}
+
+/* ---------- Light theme -----------------------------------
+   Warm off-white rather than pure white, and a deeper teal so
+   the accent still passes contrast on a light background.
+   ---------------------------------------------------------- */
+html[data-theme="light"] {
+  --ink:        #F2EFE8;
+  --ink-raised: #FBFAF6;
+  --line:       #DED8CB;
+  --text-hi:    #1A1E25;
+  --text-lo:    #5C6672;
+  --signal:     #0E7C67;
+  --signal-dim: #0A5F4F;
+  --amber:      #96601A;
+  --nav-bg:     rgba(242, 239, 232, 0.88);
+  --on-signal:  #FFFFFF;
+  --hover-tint: rgba(14, 124, 103, 0.05);
+  --note-tint:  rgba(14, 124, 103, 0.06);
+  /* the inset card flips dark so it still reads as a distinct block */
+  --paper:      #1A1F27;
+  --paper-card: #232A33;
+  --text-ink:   #F4F2EC;
+  --text-ink-lo:#A9B3C0;
+}
+@media (prefers-color-scheme: light) {
+  html:not([data-theme]) {
+    --ink:        #F2EFE8;
+    --ink-raised: #FBFAF6;
+    --line:       #DED8CB;
+    --text-hi:    #1A1E25;
+    --text-lo:    #5C6672;
+    --signal:     #0E7C67;
+    --signal-dim: #0A5F4F;
+    --amber:      #96601A;
+    --nav-bg:     rgba(242, 239, 232, 0.88);
+    --on-signal:  #FFFFFF;
+    --hover-tint: rgba(14, 124, 103, 0.05);
+    --note-tint:  rgba(14, 124, 103, 0.06);
+    --paper:      #1A1F27;
+    --paper-card: #232A33;
+    --text-ink:   #F4F2EC;
+    --text-ink-lo:#A9B3C0;
+  }
 }
 
 * { box-sizing: border-box; }
@@ -64,7 +112,7 @@ header.site-nav {
   position: sticky;
   top: 0;
   z-index: 50;
-  background: rgba(16, 20, 26, 0.86);
+  background: var(--nav-bg);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--line);
 }
@@ -186,11 +234,11 @@ header.site-nav {
 .btn:hover { border-color: var(--signal); color: var(--signal); }
 .btn.primary {
   background: var(--signal);
-  color: #0B1512;
+  color: var(--on-signal);
   border-color: var(--signal);
   font-weight: 600;
 }
-.btn.primary:hover { background: var(--signal-dim); border-color: var(--signal-dim); color: #0B1512; }
+.btn.primary:hover { background: var(--signal-dim); border-color: var(--signal-dim); color: var(--on-signal); }
 
 /* ---------- Sections on dark ---------- */
 section { padding: 64px 0; border-top: 1px solid var(--line); }
@@ -250,7 +298,7 @@ section h2 {
   cursor: pointer; transition: all .15s ease;
 }
 .cat-btn:hover { color: var(--text-hi); border-color: var(--text-lo); }
-.cat-btn.active { color: #0B1512; background: var(--signal); border-color: var(--signal); }
+.cat-btn.active { color: var(--on-signal); background: var(--signal); border-color: var(--signal); }
 
 .cat-group { margin-bottom: 48px; }
 .cat-group h3 {
@@ -269,7 +317,7 @@ section h2 {
   display: flex; align-items: center; justify-content: space-between;
   gap: 16px; padding: 20px 24px; cursor: pointer;
 }
-.proj-head:hover { background: rgba(62,214,181,0.04); }
+.proj-head:hover { background: var(--hover-tint); }
 .proj-title { display: flex; flex-direction: column; gap: 6px; }
 .proj-title h4 { margin: 0; font-family: var(--font-display); font-size: 18px; font-weight: 600; }
 .proj-tags { display: flex; flex-wrap: wrap; gap: 8px; }
@@ -415,7 +463,7 @@ section h2 {
 .chip-row { display: flex; flex-wrap: wrap; gap: 8px; }
 .chip {
   font-size: 13px; padding: 6px 12px; border-radius: 4px;
-  background: rgba(62,214,181,0.06); border: 1px solid var(--line); color: var(--text-hi);
+  background: var(--note-tint); border: 1px solid var(--line); color: var(--text-hi);
 }
 
 /* ---------- About page bio on paper card ---------- */
@@ -446,3 +494,20 @@ footer a:hover { color: var(--signal); }
   margin: 0 0 12px;
 }
 .page-head p { color: var(--text-lo); max-width: 60ch; }
+
+
+/* ---------- Theme toggle ---------- */
+.theme-toggle {
+  background: none;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--text-lo);
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1;
+  padding: 7px 10px;
+  transition: color .15s, border-color .15s;
+}
+.theme-toggle:hover { color: var(--signal); border-color: var(--signal); }
+.nav-links li.nav-theme { display: flex; align-items: center; }
