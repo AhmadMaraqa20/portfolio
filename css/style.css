@@ -407,6 +407,17 @@ section h2 {
   margin: 0 0 18px;
 }
 .status-pair { display: inline-flex; flex-wrap: wrap; gap: 6px; }
+
+/* "more coming" note at the end of the project list */
+.wip {
+  margin-top: 40px;
+  padding: 22px 24px;
+  border: 1px dashed var(--line);
+  border-radius: 8px;
+  background: var(--note-tint);
+}
+.wip .eyebrow { margin-bottom: 8px; }
+.wip p:last-child { margin: 0; color: var(--text-lo); font-size: 15px; }
 .legend {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
